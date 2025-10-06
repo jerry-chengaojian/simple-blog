@@ -2,8 +2,9 @@ import { generateClient } from "aws-amplify/data";
 import type { Schema } from "@/amplify/data/resource";
 
 /**
- * Creates an Amplify Data client for query operations
- * Uses apiKey authorization mode, allowing unauthenticated users to read public data
+ * Creates an Amplify Data client for public read operations
+ * Uses apiKey authorization mode with publicApiKey() authorization
+ * Allows anyone (authenticated or not) to read public data
  * Suitable for: fetching blog lists, blog details, comments, etc.
  *
  * @returns Amplify Data client instance (apiKey mode)

@@ -17,7 +17,7 @@ const schema = a.schema({
       comments: a.hasMany("Comment", "blogId"),
     })
     .authorization((allow) => [
-      allow.guest().to(["read"]),
+      allow.publicApiKey().to(["read"]),
       allow.authenticated().to(["read", "create"]),
       allow.ownerDefinedIn("authorId").to(["read", "delete", "update"]),
     ]),
@@ -31,7 +31,7 @@ const schema = a.schema({
       blog: a.belongsTo("Blog", "blogId"),
     })
     .authorization((allow) => [
-      allow.guest().to(["read"]),
+      allow.publicApiKey().to(["read"]),
       allow.authenticated().to(["read", "create"]),
       allow.ownerDefinedIn("authorId").to(["read", "delete", "update"]),
     ]),
