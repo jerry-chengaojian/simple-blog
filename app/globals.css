@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Amplify UI React styles */
+@import "@aws-amplify/ui-react/styles.css";
+
+@layer base {
+  body {
+    @apply bg-gradient-to-b from-gray-50 to-gray-100 min-h-screen;
+  }
+}
+
+@layer components {
+  /* Custom Amplify UI component styles */
+  .amplify-authenticator {
+    --amplify-components-authenticator-container-background-color: white;
+    --amplify-components-authenticator-container-box-shadow: 0 8px 24px
+      rgba(0, 0, 0, 0.12);
+    --amplify-components-button-primary-background-color: #2563eb;
+    --amplify-components-button-primary-hover-background-color: #1d4ed8;
+    --amplify-components-tabs-item-active-color: #2563eb;
+    --amplify-components-tabs-item-active-border-color: #2563eb;
+  }
+}
