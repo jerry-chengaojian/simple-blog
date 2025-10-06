@@ -1,12 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { generateClient } from "aws-amplify/data";
 import type { Schema } from "@/amplify/data/resource";
 import Link from "next/link";
 import Navbar from "./components/Navbar";
-
-const client = generateClient<Schema>();
+import { getAmplifyClient } from "@/lib/amplify-client";
 
 export default function Home() {
   const [blogs, setBlogs] = useState<Array<Schema["Blog"]["type"]>>([]);
@@ -18,6 +16,8 @@ export default function Home() {
 
   const fetchBlogs = async () => {
     try {
+      // Use getAmplifyClient for query operations (allows unauthenticated access)
+      const client = getAmplifyClient();
       const { data: items, errors } = await client.models.Blog.list();
 
       if (errors) {

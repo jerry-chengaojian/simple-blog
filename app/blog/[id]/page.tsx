@@ -1,13 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { generateClient } from "aws-amplify/data";
 import type { Schema } from "@/amplify/data/resource";
 import { getCurrentUser } from "aws-amplify/auth";
 import { useRouter } from "next/navigation";
 import Navbar from "../../components/Navbar";
-
-const client = generateClient<Schema>();
+import { getAmplifyClient, getAuthenticatedClient } from "@/lib/amplify-client";
 
 export default function BlogDetailPage({ params }: { params: { id: string } }) {
   const [blog, setBlog] = useState<Schema["Blog"]["type"] | null>(null);
@@ -38,6 +36,8 @@ export default function BlogDetailPage({ params }: { params: { id: string } }) {
 
   const fetchBlog = async () => {
     try {
+      // Use getAmplifyClient for query operations (allows unauthenticated access)
+      const client = getAmplifyClient();
       const { data: blogData, errors } = await client.models.Blog.get({
         id: params.id,
       });
@@ -59,6 +59,8 @@ export default function BlogDetailPage({ params }: { params: { id: string } }) {
 
   const fetchComments = async () => {
     try {
+      // Use getAmplifyClient for query operations (allows unauthenticated access)
+      const client = getAmplifyClient();
       const { data: commentData, errors } = await client.models.Comment.list({
         filter: {
           blogId: {
@@ -91,6 +93,8 @@ export default function BlogDetailPage({ params }: { params: { id: string } }) {
     }
 
     try {
+      // Use getAuthenticatedClient for delete operations (requires authentication)
+      const client = getAuthenticatedClient();
       await client.models.Blog.delete({ id: params.id });
       router.push("/");
     } catch (error) {
@@ -115,6 +119,8 @@ export default function BlogDetailPage({ params }: { params: { id: string } }) {
     setCommentLoading(true);
 
     try {
+      // Use getAuthenticatedClient for create operations (requires authentication)
+      const client = getAuthenticatedClient();
       const author =
         user.signInDetails?.loginId || user.username || "Anonymous";
 
@@ -141,6 +147,8 @@ export default function BlogDetailPage({ params }: { params: { id: string } }) {
     }
 
     try {
+      // Use getAuthenticatedClient for delete operations (requires authentication)
+      const client = getAuthenticatedClient();
       await client.models.Comment.delete({ id: commentId });
       await fetchComments();
     } catch (error) {

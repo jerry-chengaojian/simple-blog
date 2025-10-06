@@ -1,13 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { generateClient } from "aws-amplify/data";
 import type { Schema } from "@/amplify/data/resource";
 import { getCurrentUser } from "aws-amplify/auth";
 import { useRouter } from "next/navigation";
 import Navbar from "../components/Navbar";
+import { getAuthenticatedClient } from "@/lib/amplify-client";
 
-const client = generateClient<Schema>();
+// Use getAuthenticatedClient for create operations (requires authentication)
+const client = getAuthenticatedClient();
 
 export default function CreateBlogPage() {
   const [title, setTitle] = useState("");
